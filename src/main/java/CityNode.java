@@ -1,8 +1,11 @@
-public class Node {
+/**
+ * Created by wenpengkun on 2017/12/09.
+ */
+public class CityNode {
     public String name;
     public boolean visited;
 
-    public Node(String name) {
+    public CityNode(String name) {
         this.name = name;
         this.visited = false;
     }
@@ -12,7 +15,7 @@ public class Node {
         if (b == null || b.getClass() != getClass()) {
             return false;
         }
-        Node bx = (Node)b;
+        CityNode bx = (CityNode)b;
         return this.name.equals(bx.name);
     }
 

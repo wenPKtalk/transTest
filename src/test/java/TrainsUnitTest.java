@@ -26,9 +26,7 @@ public class TrainsUnitTest {
         c = new CityNode("C");
         d = new CityNode("D");
         e = new CityNode("E");
-
-		/*Input given in programming challenge
-		Graph: AB5, BC4, CD8, DC8, DE6, AD5, CE2, EB3, AE7*/
+        //构造图：AB5, BC4, CD8, DC8, DE6, AD5, CE2, EB3, AE7
         graph.routeTable.put(a, new Edge(a, b, 5).next(new Edge(a, d, 5).next(new Edge(a, e, 7))));
         graph.routeTable.put(b, new Edge(b, c, 4));
         graph.routeTable.put(c, new Edge(c, d, 8).next(new Edge(c, e, 2)));
@@ -49,7 +47,8 @@ public class TrainsUnitTest {
         route.add(b);
         route.add(c);
         try {
-            System.out.println("Output #1: "+graph.distanceBetween(route));
+            System.out.print("Output #1: ");
+            System.out.println(graph.distanceBetween(route));
         } catch (NoRouterException e1) {
             e1.printStackTrace();
         }
@@ -67,7 +66,8 @@ public class TrainsUnitTest {
         route.add(a);
         route.add(d);
         try {
-            System.out.println("Output #2: "+graph.distanceBetween(route));
+            System.out.print("Output #2: ");
+            System.out.println(graph.distanceBetween(route));
         } catch (NoRouterException e1) {
             e1.printStackTrace();
         }
@@ -86,7 +86,8 @@ public class TrainsUnitTest {
         route.add(d);
         route.add(c);
         try {
-            System.out.println("Output #3: "+graph.distanceBetween(route));
+            System.out.print("Output #3: ");
+            System.out.println(graph.distanceBetween(route));
         } catch (NoRouterException e1) {
             e1.printStackTrace();
         }
@@ -107,7 +108,8 @@ public class TrainsUnitTest {
         route.add(c);
         route.add(d);
         try {
-            System.out.println("Output #4: "+graph.distanceBetween(route));
+            System.out.print("Output #4: ");
+            System.out.println(graph.distanceBetween(route));
         } catch (NoRouterException e1) {
             e1.printStackTrace();
         }
@@ -125,9 +127,10 @@ public class TrainsUnitTest {
         route.add(e);
         route.add(d);
         try {
-            graph.distanceBetween(route);
+            System.out.print("Output #5: ");
+            System.out.println(graph.distanceBetween(route));
         } catch (NoRouterException e1) {
-            e1.printStackTrace();
+//            e1.printStackTrace();
         }
 
     }
@@ -143,11 +146,12 @@ public class TrainsUnitTest {
     public void testFSix_CC3()  {
         int numStops = 0;
         try {
+            System.out.print("Output #6: ");
             numStops = graph.numStops(c, c, 3);
+            System.out.println(numStops);
         } catch (NoRouterException e1) {
             e1.printStackTrace();
         }
-        System.out.println("Output #6: "+numStops);
     }
     /**
      *The number of trips starting at A and ending at C with exactly 4 stops.
@@ -161,11 +165,12 @@ public class TrainsUnitTest {
     public void testGSeven_AC4()  {
         int numStops = 0;
         try {
+            System.out.print("Output #7: ");
             numStops = graph.numStops(a, c, 4);
+            System.out.println(numStops);
         } catch (NoRouterException e1) {
             e1.printStackTrace();
         }
-        System.out.println("Output #7: "+numStops);
     }
     /**
      *The length of the shortest route (in terms of distance to travel) from A to C.
@@ -178,11 +183,12 @@ public class TrainsUnitTest {
     public void testHEight_AC()  {
         int shortestRoute = 0;
         try {
+            System.out.print("Output #8: ");
             shortestRoute = graph.shortestRoute(a, c);
+            System.out.println(shortestRoute);
         } catch (NoRouterException e1) {
             e1.printStackTrace();
         }
-        System.out.println("Output #8: "+shortestRoute);
 
     }
     /**
@@ -196,11 +202,12 @@ public class TrainsUnitTest {
     public void testINine_BB()  {
         int shortestRoute = 0;
         try {
+            System.out.print("Output #9: ");
             shortestRoute = graph.shortestRoute(b, b);
+            System.out.println(shortestRoute);
         } catch (NoRouterException e1) {
             e1.printStackTrace();
         }
-        System.out.println("Output #9: "+shortestRoute);
     }
 
     /**
@@ -214,11 +221,12 @@ public class TrainsUnitTest {
     public void testJTen_CC30()  {
         int numRoutesWithin = 0;
         try {
+            System.out.print("Output #10: ");
             numRoutesWithin = graph.numRoutesWithin(c, c, 30);
+            System.out.println(numRoutesWithin);
         } catch (NoRouterException e1) {
             e1.printStackTrace();
         }
-        System.out.println("Output #10: "+numRoutesWithin);
     }
 
 }

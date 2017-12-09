@@ -28,20 +28,13 @@ public class TrainsRoutesMain {
         int distance, depth, i;
         distance = depth = i = 0;
 
-		/* For each city in the list,
-         * we check if entry exists in our
-		 * hash table.
-		 */
         /**
          * 检查list中的节点检查是否存在于创建的图表中
          */
         while (i < cities.size() - 1) {
             if (this.routeTable.containsKey(cities.get(i))) {
                 Edge route = this.routeTable.get(cities.get(i));
-				/*If key exists, we check if route from key to next
-				 * city exists. We add the distance, and maintain a
-				 * depth count
-				 */
+
                 //存在：采用深度优先算法遍历节点并且权值相加
                 while (route != null) {
                     if (route.destination.equals(cities.get(i + 1))) {
@@ -57,10 +50,7 @@ public class TrainsRoutesMain {
             }
             i++;
         }
-		/*If edge depth is not equal to vertex - 1,
-		 * then it is safe to assume that one ore more
-		 * routes do not exist
-		 */
+
         //遍历深度不等于城市节点长度减一则路线不存在
         if (depth != cities.size() - 1) {
             throw new NoRouterException("NO SUCH ROUTE");
@@ -68,21 +58,20 @@ public class TrainsRoutesMain {
         return distance;
     }
 
-    /*
-     * Number of stops;
-     * Wrapper for recursive function
+    /**
+     * 计算两个城市的站点数量
+     * maxStop:最大站点数量
+     * @param start
+     * @param end
+     * @param maxStops
+     * @return
+     * @throws NoRouterException
      */
     public int numStops(CityNode start, CityNode end, int maxStops) throws NoRouterException {
-        //Wrapper to maintain depth of traversal
 
         return findRoutes(start, end, 0, maxStops);
     }
 
-    /*
-     * Finds number of stops from start to end,
-     * with a maximum of maxStops and the depth
-     * limit.
-     */
 
     /**
      * 给定起点和终点查找总共存在多少站

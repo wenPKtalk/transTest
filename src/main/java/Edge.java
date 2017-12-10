@@ -3,8 +3,8 @@
  */
 public class Edge {
 
-    public CityNode origin;  //源城市节点
-    public CityNode destination; //目的地城市节点
+    public TownsNode origin;  //源城市节点
+    public TownsNode destination; //目的地城市节点
     public int weight;//距离
     public Edge next;  //下个可能的路线
 
@@ -14,7 +14,7 @@ public class Edge {
      * @param destination
      * @param weight
      */
-    public Edge(CityNode origin, CityNode destination, int weight) {
+    public Edge(TownsNode origin, TownsNode destination, int weight) {
         this.origin = origin;
         this.destination = destination;
         this.weight = weight;

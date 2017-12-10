@@ -11,7 +11,7 @@ import static org.junit.Assert.assertEquals;
 
 public class TrainsUnitTest {
     static TrainsRoutesMain graph;
-    static CityNode a, b, c, d, e;
+    static TownsNode a, b, c, d, e;
 
     /**
      * 初始化图
@@ -19,14 +19,14 @@ public class TrainsUnitTest {
      */
     @BeforeClass
     public static void setUpBeforeClass()  {
-        graph = new TrainsRoutesMain(); //Build graph
+        graph = new TrainsRoutesMain();
 
-        a = new CityNode("A");
-        b = new CityNode("B");
-        c = new CityNode("C");
-        d = new CityNode("D");
-        e = new CityNode("E");
-        //构造图：AB5, BC4, CD8, DC8, DE6, AD5, CE2, EB3, AE7
+        a = new TownsNode("A");
+        b = new TownsNode("B");
+        c = new TownsNode("C");
+        d = new TownsNode("D");
+        e = new TownsNode("E");
+        //生成图：AB5, BC4, CD8, DC8, DE6, AD5, CE2, EB3, AE7
         graph.routeTable.put(a, new Edge(a, b, 5).next(new Edge(a, d, 5).next(new Edge(a, e, 7))));
         graph.routeTable.put(b, new Edge(b, c, 4));
         graph.routeTable.put(c, new Edge(c, d, 8).next(new Edge(c, e, 2)));
@@ -42,7 +42,7 @@ public class TrainsUnitTest {
      */
     @Test
     public void testAOne_ABC()  {
-        ArrayList<CityNode> route = new ArrayList<CityNode>();
+        ArrayList<TownsNode> route = new ArrayList<TownsNode>();
         route.add(a);
         route.add(b);
         route.add(c);
@@ -62,7 +62,7 @@ public class TrainsUnitTest {
      */
     @Test
     public void testBTwo_AD()  {
-        ArrayList<CityNode> route = new ArrayList<CityNode>();
+        ArrayList<TownsNode> route = new ArrayList<TownsNode>();
         route.add(a);
         route.add(d);
         try {
@@ -81,7 +81,7 @@ public class TrainsUnitTest {
      */
     @Test
     public void testCThree_ADC()   {
-        ArrayList<CityNode> route = new ArrayList<CityNode>();
+        ArrayList<TownsNode> route = new ArrayList<TownsNode>();
         route.add(a);
         route.add(d);
         route.add(c);
@@ -101,7 +101,7 @@ public class TrainsUnitTest {
      */
     @Test
     public void testDFour_AEBCD() {
-        ArrayList<CityNode> route = new ArrayList<CityNode>();
+        ArrayList<TownsNode> route = new ArrayList<TownsNode>();
         route.add(a);
         route.add(e);
         route.add(b);
@@ -122,7 +122,7 @@ public class TrainsUnitTest {
      */
     @Test
     public void testEFive_AED() {
-        ArrayList<CityNode> route = new ArrayList<CityNode>();
+        ArrayList<TownsNode> route = new ArrayList<TownsNode>();
         route.add(a);
         route.add(e);
         route.add(d);

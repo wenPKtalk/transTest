@@ -5,10 +5,10 @@ import java.util.Hashtable;
  * Created by wenpengkun on 2017/12/09.
  */
 public class TrainsRoutesMain {
-    public Hashtable<CityNode, Edge> routeTable;
+    public Hashtable<TownsNode, Edge> routeTable;
 
     public TrainsRoutesMain() {
-        this.routeTable = new Hashtable<CityNode, Edge>();
+        this.routeTable = new Hashtable<TownsNode, Edge>();
     }
 
     /**
@@ -18,7 +18,7 @@ public class TrainsRoutesMain {
      * @return
      * @throws Exception
      */
-    public int distanceBetween(ArrayList<CityNode> cities) throws NoRouterException {
+    public int distanceBetween(ArrayList<TownsNode> cities) throws NoRouterException {
 
         if (cities.size() < 2) {
             //如果给出的节点个数小于2直接返回0
@@ -67,7 +67,8 @@ public class TrainsRoutesMain {
      * @return
      * @throws NoRouterException
      */
-    public int numStops(CityNode start, CityNode end, int maxStops) throws NoRouterException {
+    public int numStops(TownsNode start, TownsNode end, int maxStops)
+            throws NoRouterException {
 
         return findRoutes(start, end, 0, maxStops);
     }
@@ -83,34 +84,31 @@ public class TrainsRoutesMain {
      * @return
      * @throws NoRouterException
      */
-    private int findRoutes(CityNode start, CityNode end, int depth, int maxStops) throws NoRouterException {
+    private int findRoutes(TownsNode start, TownsNode end, int depth, int maxStops)
+            throws NoRouterException {
         int routes = 0;
-        //Check if start and end nodes exists in route table
         if (this.routeTable.containsKey(start) && this.routeTable.containsKey(end)) {
-			/*
-			 * If start node exists then traverse all possible
-			 * routes and for each, check if it is destination
-			 * If destination, and number of stops within
-			 * allowed limits, count it as possible route.
-			 */
+            /**
+             * 如果给定节点均存在则依次遍历所有可能的节点，
+             * 遍历过程中如果满足给定起始节点和终止节点并且
+             * 在规定的站数范围则加入可能的路线。
+             */
             depth++;
             if (depth > maxStops) {
                 return 0;
-            }        //Check if depth level is within limits
-            start.visited = true;        //Mark start node as visited
+            }
+            start.visited = true;        //起始节点
             Edge edge = this.routeTable.get(start);
             while (edge != null) {
-				/* If destination matches, we increment route
-				 * count, then continue to next node at same depth
-				 */
+
                 if (edge.destination.equals(end)) {
+                    //符合条件，路线数量加1，继续遍历
                     routes++;
                     edge = edge.next;
                     continue;
                 } else if (!edge.destination.visited) {
-                    // If destination does not match, and
-                    // destination node has not yet been visited,
-                    // we recursively traverse destination node
+                    //不符合条件，并且终点节点未被访问
+                    //进行递归遍历
                     routes += findRoutes(edge.destination, end, depth, maxStops);
                     depth--;
                 }
@@ -120,58 +118,55 @@ public class TrainsRoutesMain {
             throw new NoRouterException("NO SUCH ROUTE");
         }
 
-		/*
-		 * Before exiting this recursive stack level,
-		 * we mark the start node as visited.
-		 */
+		//退出递归前重置起始节点访问状态
         start.visited = false;
         return routes;
     }
 
-    /*
-     * Shortest route;
-     * Wrapper for recursive function
+    /**
+     * 给定开始节点和终止节点算出两个节点
+     * 在有向带权图中的最短路径
+     * 采用 Dijkstra算法
+     * @param start
+     * @param end
+     * @return
+     * @throws NoRouterException
      */
-    public int shortestRoute(CityNode start, CityNode end) throws NoRouterException {
-        //Wrapper to maintain weight
+    public int shortestRoute(TownsNode start, TownsNode end) throws NoRouterException {
         return findShortestRoute(start, end, 0, 0);
 
     }
 
-    /*
-     * Finds the shortest route between two nodes
+    /**
+     * Dijkstra算法具体实现
+     * @param start
+     * @param end
+     * @param weight
+     * @param shortestRoute
+     * @return
+     * @throws NoRouterException
      */
-    private int findShortestRoute(CityNode start, CityNode end, int weight, int shortestRoute) throws NoRouterException {
-        //Check if start and end nodes exists in route table
+    private int findShortestRoute(TownsNode start, TownsNode end, int weight, int shortestRoute)
+            throws NoRouterException {
+
         if (this.routeTable.containsKey(start) && this.routeTable.containsKey(end)) {
-			/*
-			 * If start node exists then traverse all possible
-			 * routes and for each, check if it is destination
-			 */
-            start.visited = true;        //Mark start node as visited
+			//依次遍历所有可能的节点，并且检查是否为目的地
+            start.visited = true;        //设置开始节点为已访问
             Edge edge = this.routeTable.get(start);
             while (edge != null) {
-                //If node not already visited, or is the destination, increment weight
+                //节点未访问或为终点,增加权重
                 if (edge.destination == end || !edge.destination.visited)
                     weight += edge.weight;
-
-				/* If destination matches, we compare
-				 * weight of this route to shortest route
-				 * so far, and make appropriate switch
-				 */
-                if (edge.destination.equals(end)) {
+                //判断是否为目的地节点，如果是则与当前已经遍历到的最短路径权重比较
+                //并且更新最新的最短路径
+                if (edge.destination.equals(end)) { //递归出口
                     if (shortestRoute == 0 || weight < shortestRoute)
                         shortestRoute = weight;
                     start.visited = false;
-                    return shortestRoute;            //Unvisit node and return shortest route
-                }
-				/* If destination does not match, and
-				 * destination node has not yet been visited,
-				 * we recursively traverse destination node
-				 */
-                else if (!edge.destination.visited) {
+                    return shortestRoute;
+                }else if (!edge.destination.visited) {
+                    //继续访问
                     shortestRoute = findShortestRoute(edge.destination, end, weight, shortestRoute);
-                    //Decrement weight as we backtrack
                     weight -= edge.weight;
                 }
                 edge = edge.next;
@@ -180,41 +175,45 @@ public class TrainsRoutesMain {
             throw new NoRouterException("NO SUCH ROUTE");
         }
 
-		/*
-		 * Before exiting this recursive stack level,
-		 * we mark the start node as visited.
-		 */
+        //退出递归前重置起始节点访问状态
         start.visited = false;
         return shortestRoute;
 
     }
 
-    /*
-     * Shortest route;
-     * Wrapper for recursive function
+    /**
+     * 给定起始节点，终止节点，最大路径
+     * 返回所有可能的路线数量
+     * @param start
+     * @param end
+     * @param maxDistance
+     * @return
+     * @throws NoRouterException
      */
-    public int numRoutesWithin(CityNode start, CityNode end, int maxDistance) throws NoRouterException {
-        //Wrapper to maintain weight
+    public int numRoutesWithin(TownsNode start, TownsNode end, int maxDistance)
+            throws NoRouterException {
         return findnumRoutesWithin(start, end, 0, maxDistance);
     }
 
-    /*
-     * Finds the shortest route between two nodes
+    /**
+     * 实现算法
+     * @param start
+     * @param end
+     * @param weight
+     * @param maxDistance
+     * @return
+     * @throws NoRouterException
      */
-    private int findnumRoutesWithin(CityNode start, CityNode end, int weight, int maxDistance) throws NoRouterException {
+    private int findnumRoutesWithin(TownsNode start, TownsNode end, int weight, int maxDistance)
+            throws NoRouterException {
         int routes = 0;
-        //Check if start and end nodes exists in route table
         if (this.routeTable.containsKey(start) && this.routeTable.containsKey(end)) {
-			/*
-			 * If start node exists then traverse all possible
-			 * routes and for each, check if it is destination
-			 */
+
+            //依次遍历所有可能的路线并且检查是否为终结点
             Edge edge = this.routeTable.get(start);
             while (edge != null) {
                 weight += edge.weight;
-				/* If distance is under max, keep traversing
-				 * even if match is found until distance is > max
-				 */
+				//路线权重小于限定值继续进行遍历直到超过限定值
                 if (weight <= maxDistance) {
                     if (edge.destination.equals(end)) {
                         routes++;
@@ -223,7 +222,7 @@ public class TrainsRoutesMain {
                         continue;
                     } else {
                         routes += findnumRoutesWithin(edge.destination, end, weight, maxDistance);
-                        weight -= edge.weight;    //Decrement weight as we backtrack
+                        weight -= edge.weight;
                     }
                 } else {
                     weight -= edge.weight;

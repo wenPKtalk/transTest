@@ -1,11 +1,11 @@
 /**
  * Created by wenpengkun on 2017/12/09.
  */
-public class CityNode {
+public class TownsNode {
     public String name;
     public boolean visited;
 
-    public CityNode(String name) {
+    public TownsNode(String name) {
         this.name = name;
         this.visited = false;
     }
@@ -15,7 +15,7 @@ public class CityNode {
         if (b == null || b.getClass() != getClass()) {
             return false;
         }
-        CityNode bx = (CityNode)b;
+        TownsNode bx = (TownsNode)b;
         return this.name.equals(bx.name);
     }
 

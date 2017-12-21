@@ -1,3 +1,4 @@
+import common.GenerateData;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -19,6 +20,7 @@ public class TrainsUnitTest {
      */
     @BeforeClass
     public static void setUpBeforeClass()  {
+        GenerateData.getData();
         graph = new TrainsRoutesMain();
 
         a = new TownsNode("A");

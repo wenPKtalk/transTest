@@ -5,7 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.net.URL;
 
-public class GenerateData {
+public class HandleDataUtil {
 
     public static String getData(){
         StringBuilder result = new StringBuilder();
@@ -20,7 +20,6 @@ public class GenerateData {
                 result.append(data);
             }
             br.close();
-
         }catch(Exception e){
             e.printStackTrace();
         }

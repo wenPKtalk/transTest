@@ -5,15 +5,9 @@ import java.util.Hashtable;
  * Created by wenpengkun on 2017/12/09.
  */
 public class TrainsRoutesMain {
-    public Hashtable<TownsNode, Edge> routeTable;
-
-    public TrainsRoutesMain() {
-        this.routeTable = new Hashtable<TownsNode, Edge>();
-    }
 
     /**
      * 给出节点计算之间的距离
-     *
      * @param cities
      * @return
      * @throws Exception

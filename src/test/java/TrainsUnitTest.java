@@ -1,5 +1,3 @@
-import common.GenerateData;
-import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
@@ -11,17 +9,16 @@ import static org.junit.Assert.assertEquals;
 
 
 public class TrainsUnitTest {
-    static TrainsRoutesMain graph;
+    static GraphRouter graph;
     static TownsNode a, b, c, d, e;
 
     /**
      * 初始化图
      * @throws Exception
      */
-    @BeforeClass
-    public static void setUpBeforeClass()  {
-        GenerateData.getData();
-        graph = new TrainsRoutesMain();
+    @Test
+    public  void test2Graph()  {
+        graph = new GraphRouter();
 
         a = new TownsNode("A");
         b = new TownsNode("B");
@@ -34,6 +31,12 @@ public class TrainsUnitTest {
         graph.routeTable.put(c, new Edge(c, d, 8).next(new Edge(c, e, 2)));
         graph.routeTable.put(d, new Edge(d, c, 8).next(new Edge(d, e, 6)));
         graph.routeTable.put(e, new Edge(e, b, 3));
+        System.out.println(graph);
+    }
+    @Test
+    public void testGraph() throws Exception {
+        Graph graph1 = Graph.getGraph();
+        Graph graph2 = Graph.getGraph();
     }
 
     /**

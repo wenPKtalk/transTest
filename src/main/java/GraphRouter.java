@@ -5,9 +5,9 @@ import java.util.Hashtable;
  * Created by wenpengkun on 2017/12/09.
  */
 public class GraphRouter extends GraphDecorator{
-    public Hashtable<TownsNode, Edge> routeTable;
+    public Hashtable<TownsNode, Edge> routeTable = Graph.getGraph().getRouteTable();
 
-    public GraphRouter(GraphInter _graph) {
+    public GraphRouter(GraphInter _graph) throws Exception {
         super( _graph);
     }
 

@@ -11,8 +11,11 @@ public class Graph implements GraphInter{
 
     private static Graph graph = null;
 
-    public Hashtable<TownsNode, Edge> routeTable;
+    private Hashtable<TownsNode, Edge> routeTable;
 
+    public Hashtable<TownsNode, Edge> getRouteTable() {
+        return routeTable;
+    }
 
     /**
      * 图的数据生成

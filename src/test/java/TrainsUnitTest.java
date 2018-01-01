@@ -9,35 +9,12 @@ import static org.junit.Assert.assertEquals;
 
 
 public class TrainsUnitTest {
-    static GraphRouter graph;
-    static TownsNode a, b, c, d, e;
 
-    /**
-     * 初始化图
-     * @throws Exception
-     */
-    @Test
-    public  void test2Graph()  {
-        graph = new GraphRouter();
-
-        a = new TownsNode("A");
-        b = new TownsNode("B");
-        c = new TownsNode("C");
-        d = new TownsNode("D");
-        e = new TownsNode("E");
-        //生成图：AB5, BC4, CD8, DC8, DE6, AD5, CE2, EB3, AE7
-        graph.routeTable.put(a, new Edge(a, b, 5).next(new Edge(a, d, 5).next(new Edge(a, e, 7))));
-        graph.routeTable.put(b, new Edge(b, c, 4));
-        graph.routeTable.put(c, new Edge(c, d, 8).next(new Edge(c, e, 2)));
-        graph.routeTable.put(d, new Edge(d, c, 8).next(new Edge(d, e, 6)));
-        graph.routeTable.put(e, new Edge(e, b, 3));
-        System.out.println(graph);
-    }
-    @Test
-    public void testGraph() throws Exception {
-        Graph graph1 = Graph.getGraph();
-        Graph graph2 = Graph.getGraph();
-    }
+//    @Test
+//    public void testGraph() throws Exception {
+//        Graph graph1 = Graph.getGraph();
+//        Graph graph2 = Graph.getGraph();
+//    }
 
     /**
      * The distance of the route A-B-C
@@ -46,11 +23,12 @@ public class TrainsUnitTest {
      * @throws Exception
      */
     @Test
-    public void testAOne_ABC()  {
+    public void testAOne_ABC() throws Exception {
         ArrayList<TownsNode> route = new ArrayList<TownsNode>();
-        route.add(a);
-        route.add(b);
-        route.add(c);
+        GraphDecorator graph = new GraphRouter(Graph.getGraph());
+        route.add(new TownsNode("A"));
+        route.add(new TownsNode("B"));
+        route.add(new TownsNode("C"));
         try {
             System.out.print("Output #1: ");
             System.out.println(graph.distanceBetween(route));
@@ -66,10 +44,11 @@ public class TrainsUnitTest {
      * @throws Exception
      */
     @Test
-    public void testBTwo_AD()  {
+    public void testBTwo_AD() throws Exception {
         ArrayList<TownsNode> route = new ArrayList<TownsNode>();
-        route.add(a);
-        route.add(d);
+        GraphDecorator graph = new GraphRouter(Graph.getGraph());
+        route.add(new TownsNode("A"));
+        route.add(new TownsNode("B"));
         try {
             System.out.print("Output #2: ");
             System.out.println(graph.distanceBetween(route));
@@ -85,11 +64,13 @@ public class TrainsUnitTest {
      * @throws Exception
      */
     @Test
-    public void testCThree_ADC()   {
+    public void testCThree_ADC() throws Exception {
         ArrayList<TownsNode> route = new ArrayList<TownsNode>();
-        route.add(a);
-        route.add(d);
-        route.add(c);
+        GraphDecorator graph = new GraphRouter(Graph.getGraph());
+
+        route.add(new TownsNode("A"));
+        route.add(new TownsNode("D"));
+        route.add(new TownsNode("C"));
         try {
             System.out.print("Output #3: ");
             System.out.println(graph.distanceBetween(route));
@@ -105,13 +86,15 @@ public class TrainsUnitTest {
      * @throws Exception
      */
     @Test
-    public void testDFour_AEBCD() {
+    public void testDFour_AEBCD() throws Exception {
         ArrayList<TownsNode> route = new ArrayList<TownsNode>();
-        route.add(a);
-        route.add(e);
-        route.add(b);
-        route.add(c);
-        route.add(d);
+        GraphDecorator graph = new GraphRouter(Graph.getGraph());
+
+        route.add(new TownsNode("A"));
+        route.add(new TownsNode("E"));
+        route.add(new TownsNode("B"));
+        route.add(new TownsNode("C"));
+        route.add(new TownsNode("D"));
         try {
             System.out.print("Output #4: ");
             System.out.println(graph.distanceBetween(route));
@@ -126,11 +109,13 @@ public class TrainsUnitTest {
      * @throws Exception
      */
     @Test
-    public void testEFive_AED() {
+    public void testEFive_AED() throws Exception {
         ArrayList<TownsNode> route = new ArrayList<TownsNode>();
-        route.add(a);
-        route.add(e);
-        route.add(d);
+        GraphDecorator graph = new GraphRouter(Graph.getGraph());
+
+        route.add(new TownsNode("A"));
+        route.add(new TownsNode("E"));
+        route.add(new TownsNode("D"));
         try {
             System.out.print("Output #5: ");
             System.out.println(graph.distanceBetween(route));
@@ -148,11 +133,12 @@ public class TrainsUnitTest {
      * @throws Exception
      */
     @Test
-    public void testFSix_CC3()  {
+    public void testFSix_CC3() throws Exception {
         int numStops = 0;
+        GraphDecorator graph = new GraphRouter(Graph.getGraph());
         try {
             System.out.print("Output #6: ");
-            numStops = graph.numStops(c, c, 3);
+            numStops = graph.numStops(new TownsNode("C"), new TownsNode("C"), 3);
             System.out.println(numStops);
         } catch (NoRouterException e1) {
             e1.printStackTrace();
@@ -167,11 +153,12 @@ public class TrainsUnitTest {
      * @throws Exception
      */
     @Test
-    public void testGSeven_AC4()  {
+    public void testGSeven_AC4() throws Exception {
         int numStops = 0;
+        GraphDecorator graph = new GraphRouter(Graph.getGraph());
         try {
             System.out.print("Output #7: ");
-            numStops = graph.numStops(a, c, 4);
+            numStops = graph.numStops(new TownsNode("A"), new TownsNode("C"), 4);
             System.out.println(numStops);
         } catch (NoRouterException e1) {
             e1.printStackTrace();
@@ -185,11 +172,13 @@ public class TrainsUnitTest {
      */
 
     @Test
-    public void testHEight_AC()  {
+    public void testHEight_AC() throws Exception {
         int shortestRoute = 0;
+        GraphDecorator graph = new GraphRouter(Graph.getGraph());
+
         try {
             System.out.print("Output #8: ");
-            shortestRoute = graph.shortestRoute(a, c);
+            shortestRoute = graph.shortestRoute(new TownsNode("A"), new TownsNode("C"));
             System.out.println(shortestRoute);
         } catch (NoRouterException e1) {
             e1.printStackTrace();
@@ -204,11 +193,13 @@ public class TrainsUnitTest {
      */
 
     @Test
-    public void testINine_BB()  {
+    public void testINine_BB() throws Exception {
         int shortestRoute = 0;
+        GraphDecorator graph = new GraphRouter(Graph.getGraph());
+
         try {
             System.out.print("Output #9: ");
-            shortestRoute = graph.shortestRoute(b, b);
+            shortestRoute = graph.shortestRoute(new TownsNode("B"), new TownsNode("B"));
             System.out.println(shortestRoute);
         } catch (NoRouterException e1) {
             e1.printStackTrace();
@@ -223,11 +214,13 @@ public class TrainsUnitTest {
      * @throws Exception
      */
     @Test
-    public void testJTen_CC30()  {
+    public void testJTen_CC30() throws Exception {
         int numRoutesWithin = 0;
+        GraphDecorator graph = new GraphRouter(Graph.getGraph());
+
         try {
             System.out.print("Output #10: ");
-            numRoutesWithin = graph.numRoutesWithin(c, c, 30);
+            numRoutesWithin = graph.numRoutesWithin(new TownsNode("C"), new TownsNode("C"), 30);
             System.out.println(numRoutesWithin);
         } catch (NoRouterException e1) {
             e1.printStackTrace();

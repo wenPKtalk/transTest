@@ -10,11 +10,7 @@ import static org.junit.Assert.assertEquals;
 
 public class TrainsUnitTest {
 
-//    @Test
-//    public void testGraph() throws Exception {
-//        Graph graph1 = Graph.getGraph();
-//        Graph graph2 = Graph.getGraph();
-//    }
+
 
     /**
      * The distance of the route A-B-C

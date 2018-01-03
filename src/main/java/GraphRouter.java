@@ -4,10 +4,16 @@ import java.util.Hashtable;
 /**
  * Created by wenpengkun on 2017/12/09.
  */
-public class TrainsRoutesMain {
+public class GraphRouter extends GraphDecorator{
+    public Hashtable<TownsNode, Edge> routeTable = Graph.getGraph().getRouteTable();
+
+    public GraphRouter(GraphInter _graph) throws Exception {
+        super( _graph);
+    }
 
     /**
      * 给出节点计算之间的距离
+     *
      * @param cities
      * @return
      * @throws Exception
@@ -186,7 +192,7 @@ public class TrainsRoutesMain {
      */
     public int numRoutesWithin(TownsNode start, TownsNode end, int maxDistance)
             throws NoRouterException {
-        return findnumRoutesWithin(start, end, 0, maxDistance);
+        return findNumRoutesWithin(start, end, 0, maxDistance);
     }
 
     /**
@@ -198,7 +204,7 @@ public class TrainsRoutesMain {
      * @return
      * @throws NoRouterException
      */
-    private int findnumRoutesWithin(TownsNode start, TownsNode end, int weight, int maxDistance)
+    private int findNumRoutesWithin(TownsNode start, TownsNode end, int weight, int maxDistance)
             throws NoRouterException {
         int routes = 0;
         if (this.routeTable.containsKey(start) && this.routeTable.containsKey(end)) {
@@ -211,11 +217,11 @@ public class TrainsRoutesMain {
                 if (weight <= maxDistance) {
                     if (edge.destination.equals(end)) {
                         routes++;
-                        routes += findnumRoutesWithin(edge.destination, end, weight, maxDistance);
+                        routes += findNumRoutesWithin(edge.destination, end, weight, maxDistance);
                         edge = edge.next;
                         continue;
                     } else {
-                        routes += findnumRoutesWithin(edge.destination, end, weight, maxDistance);
+                        routes += findNumRoutesWithin(edge.destination, end, weight, maxDistance);
                         weight -= edge.weight;
                     }
                 } else {

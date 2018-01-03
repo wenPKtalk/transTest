@@ -48,7 +48,6 @@ public class Graph implements GraphInter{
         Map<String, TownsNode> townsNodeMap = getAllNode(inputData);
         for(Map.Entry<String, TownsNode> towns : townsNodeMap.entrySet()){
             //循环创建图对象
-            int edgeCount = 0; //边计数器
             for (int j = 0; j < inputData.length; j++) {
                 String inputDatum = inputData[j];
                 if (inputDatum.startsWith(towns.getKey())){

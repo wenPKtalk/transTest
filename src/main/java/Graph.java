@@ -13,6 +13,9 @@ public class Graph implements GraphInter{
 
     private Hashtable<TownsNode, Edge> routeTable;
 
+    private static final String PATH = "/Users/wensir/mydemo/transTest/target/classes/data.txt";
+
+
     public Hashtable<TownsNode, Edge> getRouteTable() {
         return routeTable;
     }
@@ -127,11 +130,9 @@ public class Graph implements GraphInter{
         StringBuilder result = new StringBuilder();
 
         try{
-            URL url = ClassLoader. getSystemClassLoader().getResource("data.txt");
-            String path = url.getPath().substring(1);
-            String data = null;
-            BufferedReader br = new BufferedReader(new FileReader(path));//构造一个BufferedReader类来读取文件
 
+            String data = null;
+            BufferedReader br = new BufferedReader(new FileReader(PATH));//构造一个BufferedReader类来读取文件
             while((data = br.readLine())!=null){//使用readLine方法，一次读一行
                 result.append(data);
             }

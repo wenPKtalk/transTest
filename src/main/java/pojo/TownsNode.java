@@ -1,3 +1,5 @@
+package pojo;
+
 /**
  * Created by wenpengkun on 2017/12/09.
  */

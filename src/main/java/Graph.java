@@ -11,12 +11,12 @@ public class Graph implements GraphInter{
 
     private static Graph graph = null;
 
-    private Hashtable<TownsNode, Edge> routeTable;
+    private HashMap<TownsNode, Edge> routeTable;
 
     private static final String PATH = "/Users/wensir/mydemo/transTest/target/classes/data.txt";
 
 
-    public Hashtable<TownsNode, Edge> getRouteTable() {
+    public HashMap<TownsNode, Edge> getRouteTable() {
         return routeTable;
     }
 
@@ -25,7 +25,7 @@ public class Graph implements GraphInter{
      * @return
      */
     private Graph() {
-        this.routeTable = new Hashtable<TownsNode, Edge>();
+        this.routeTable = new HashMap<TownsNode, Edge>();
 
     }
 
@@ -48,31 +48,27 @@ public class Graph implements GraphInter{
      */
     private void init() throws Exception {
         String[] inputData = getData().split("\\|");
+        List<String> inputDataList = Arrays.asList(inputData);
         Map<String, TownsNode> townsNodeMap = getAllNode(inputData);
-        for(Map.Entry<String, TownsNode> towns : townsNodeMap.entrySet()){
-            //循环创建图对象
-            for (int j = 0; j < inputData.length; j++) {
-                String inputDatum = inputData[j];
-                if (inputDatum.startsWith(towns.getKey())){
-                    if (graph.routeTable.get(towns.getValue()) == null){
-                        graph.routeTable.put(towns.getValue(),
-                                new Edge(towns.getValue(), //始点
-                                        townsNodeMap.get(inputDatum.charAt(1) + ""),//目标节点
-                                        Integer.parseInt(inputDatum.substring(2, inputDatum.length()) + "")));
+        townsNodeMap.forEach((k,v) ->{
+            inputDataList.forEach(data -> {
+                if (data.startsWith(k)) {
+                    if (graph.routeTable.get(v) == null){
+                        graph.routeTable.put(v,
+                                new Edge(v, //始点
+                                        townsNodeMap.get(data.charAt(1) + ""),//目标节点
+                                        Integer.parseInt(data.substring(2, data.length()) + "")));
                     }else{
                         //递归遍历创建对应的图
-                        createGraph(graph.routeTable.get(towns.getValue()),
-                                inputDatum,
-                                towns.getValue(),
+                        createGraph(graph.routeTable.get(v),
+                                data,
+                                v,
                                 townsNodeMap);
 
                     }
-
                 }
-
-            }
-
-        }
+            });
+        });
 
     }
 
@@ -108,7 +104,6 @@ public class Graph implements GraphInter{
     private Map<String,TownsNode> getAllNode(String[] inputData) throws Exception {
         validateData(inputData);
         Set<String> nodeSetName = new LinkedHashSet<String>();
-        List<Edge> edgeList = new ArrayList<Edge>();
         //获取所有节点名称
         for (String inputDatum : inputData) {
             //所有节点

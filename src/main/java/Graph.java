@@ -5,14 +5,17 @@ import pojo.TownsNode;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * created by wenpengkun
  * 数据可以动态加载
  */
-public class Graph implements GraphInter{
+public class Graph{
 
     private static Graph graph = null;
+    private static final String REGX_STR = "[A-Z][A-Z]";
+    private static final String REGX_INT = "[0-9]*";
 
     private HashMap<TownsNode, Edge> routeTable;
 
@@ -52,7 +55,7 @@ public class Graph implements GraphInter{
     private void init() throws Exception {
         String[] inputData = getData().split("\\|");
         List<String> inputDataList = Arrays.asList(inputData);
-        Map<String, TownsNode> townsNodeMap = getAllNode(inputData);
+        Map<String, TownsNode> townsNodeMap = getAllNode(inputDataList);
         townsNodeMap.forEach((k,v) ->{
             inputDataList.forEach(data -> {
                 if (data.startsWith(k)) {
@@ -104,15 +107,14 @@ public class Graph implements GraphInter{
      * @return
      * @throws Exception
      */
-    private Map<String,TownsNode> getAllNode(String[] inputData) throws Exception {
+    private Map<String,TownsNode> getAllNode(List<String> inputData) throws Exception {
         validateData(inputData);
         Set<String> nodeSetName = new LinkedHashSet<String>();
         //获取所有节点名称
-        for (String inputDatum : inputData) {
-            //所有节点
-            nodeSetName.add(inputDatum.charAt(0)+"");
-            nodeSetName.add(inputDatum.charAt(1)+"");
-        }
+        inputData.forEach(item -> {
+            nodeSetName.add(item.charAt(0) + "");
+            nodeSetName.add(item.charAt(1) + "");
+        });
         //为所有节点创建对象存到容器中
         Map townsNodeMap = new HashMap();
         nodeSetName.forEach((String nodeName) -> townsNodeMap.put(nodeName,new TownsNode(nodeName)));
@@ -126,9 +128,7 @@ public class Graph implements GraphInter{
      */
     private  String getData(){
         StringBuilder result = new StringBuilder();
-
         try{
-
             String data = null;
             BufferedReader br = new BufferedReader(new FileReader(PATH));//构造一个BufferedReader类来读取文件
             while((data = br.readLine())!=null){//使用readLine方法，一次读一行
@@ -148,22 +148,17 @@ public class Graph implements GraphInter{
      * @param inputData
      * @throws InputException
      */
-    private void validateData(String[] inputData) throws InputException {
-        if(null == inputData || inputData.length <= 0) {
-            throw new InputException("数据输入不合法请检查数据");
+    private void validateData(List<String> inputData) throws InputException {
+        if(null == inputData || inputData.size() <= 0) {
+            throw new InputException();
         }
 
-        for (String data : inputData) {
-            String regx = "[A-Z][A-Z]";
-            if (data.substring(0,2).matches(regx)) { //前两位是否合法
-                try {
-                    Integer.parseInt(data.substring(2,data.length()));//权重是否合法
-                }catch (Exception e){
-                    throw new InputException("数据输入不合法请检查数据");
-                }
-            } else {
-                throw new InputException("数据输入不合法请检查数据");
-            }
+        List<String> illegal = inputData.stream()
+                .filter(data -> !data.substring(0,2).matches(REGX_STR))
+                .filter(data -> !data.substring(2,data.length()).matches(REGX_INT))
+                .collect(Collectors.toList());
+        if (illegal.size() > 0) {
+            throw new InputException();
         }
 
     }

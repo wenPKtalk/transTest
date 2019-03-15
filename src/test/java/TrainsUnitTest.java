@@ -1,4 +1,4 @@
-import exception.NoRouterException;
+import exception.NoSuchRouterException;
 import org.junit.Assert;
 import org.junit.Test;
 import pojo.TownsNode;
@@ -19,7 +19,7 @@ public class TrainsUnitTest {
     @Test
     public void testAOne_ABC() throws Exception {
         ArrayList<TownsNode> route = new ArrayList<TownsNode>();
-        GraphDecorator graph = new GraphRouter(Graph.getGraph());
+        GraphRouter graph = new GraphRouter();
         route.add(new TownsNode("A"));
         route.add(new TownsNode("B"));
         route.add(new TownsNode("C"));
@@ -36,7 +36,7 @@ public class TrainsUnitTest {
     @Test
     public void testBTwo_AD() throws Exception {
         ArrayList<TownsNode> route = new ArrayList<TownsNode>();
-        GraphDecorator graph = new GraphRouter(Graph.getGraph());
+        GraphRouter graph = new GraphRouter();
         route.add(new TownsNode("A"));
         route.add(new TownsNode("B"));
         Assert.assertEquals(5, graph.distanceBetween(route));
@@ -53,7 +53,7 @@ public class TrainsUnitTest {
     @Test
     public void testCThree_ADC() throws Exception {
         ArrayList<TownsNode> route = new ArrayList<TownsNode>();
-        GraphDecorator graph = new GraphRouter(Graph.getGraph());
+        GraphRouter graph = new GraphRouter();
 
         route.add(new TownsNode("A"));
         route.add(new TownsNode("D"));
@@ -71,7 +71,7 @@ public class TrainsUnitTest {
     @Test
     public void testDFour_AEBCD() throws Exception {
         ArrayList<TownsNode> route = new ArrayList<TownsNode>();
-        GraphDecorator graph = new GraphRouter(Graph.getGraph());
+        GraphRouter graph = new GraphRouter();
 
         route.add(new TownsNode("A"));
         route.add(new TownsNode("E"));
@@ -88,10 +88,10 @@ public class TrainsUnitTest {
      *
      * @throws Exception
      */
-    @Test(expected = NoRouterException.class)
+    @Test(expected = NoSuchRouterException.class)
     public void testEFive_AED() throws Exception {
         ArrayList<TownsNode> route = new ArrayList<TownsNode>();
-        GraphDecorator graph = new GraphRouter(Graph.getGraph());
+        GraphRouter graph = new GraphRouter();
         route.add(new TownsNode("A"));
         route.add(new TownsNode("E"));
         route.add(new TownsNode("D"));
@@ -111,7 +111,7 @@ public class TrainsUnitTest {
     @Test
     public void testFSix_CC3() throws Exception {
         int numStops = 0;
-        GraphDecorator graph = new GraphRouter(Graph.getGraph());
+        GraphRouter graph = new GraphRouter();
         numStops = graph.numStops(new TownsNode("C"), new TownsNode("C"), 3);
         Assert.assertEquals(2, numStops);
     }
@@ -128,7 +128,7 @@ public class TrainsUnitTest {
     @Test
     public void testGSeven_AC4() throws Exception {
         int numStops = 0;
-        GraphDecorator graph = new GraphRouter(Graph.getGraph());
+        GraphRouter graph = new GraphRouter();
         numStops = graph.numStops(new TownsNode("A"), new TownsNode("C"), 4);
         Assert.assertEquals(4, numStops);
     }
@@ -144,7 +144,7 @@ public class TrainsUnitTest {
     @Test
     public void testHEight_AC() throws Exception {
         int shortestRoute = 0;
-        GraphDecorator graph = new GraphRouter(Graph.getGraph());
+        GraphRouter graph = new GraphRouter();
         shortestRoute = graph.shortestRoute(new TownsNode("A"), new TownsNode("C"));
         Assert.assertEquals(9, shortestRoute);
 
@@ -161,7 +161,7 @@ public class TrainsUnitTest {
     @Test
     public void testINine_BB() throws Exception {
         int shortestRoute = 0;
-        GraphDecorator graph = new GraphRouter(Graph.getGraph());
+        GraphRouter graph = new GraphRouter();
         shortestRoute = graph.shortestRoute(new TownsNode("B"), new TownsNode("B"));
         Assert.assertEquals(9, shortestRoute);
     }
@@ -177,7 +177,7 @@ public class TrainsUnitTest {
     @Test
     public void testJTen_CC30() throws Exception {
         int numRoutesWithin = 0;
-        GraphDecorator graph = new GraphRouter(Graph.getGraph());
+        GraphRouter graph = new GraphRouter();
         numRoutesWithin = graph.numRoutesWithin(new TownsNode("C"), new TownsNode("C"), 30);
         Assert.assertEquals(7, numRoutesWithin);
     }

@@ -1,12 +1,8 @@
 package exception;
 
-public class InputException extends Exception {
+public class InputException extends RuntimeException {
+
     public InputException() {
-    }
-
-
-    public InputException(String message) {
-        super(message);
-        System.out.println(message);
+        super(ErrorCodes.ERROR_INPUT.toString());
     }
 }

@@ -1,4 +1,4 @@
-import exception.NoRouterException;
+import exception.NoSuchRouterException;
 import pojo.Edge;
 import pojo.TownsNode;
 
@@ -8,11 +8,12 @@ import java.util.HashMap;
 /**
  * Created by wenpengkun on 2017/12/09.
  */
-public class GraphRouter extends GraphDecorator{
-    public HashMap<TownsNode, Edge> routeTable = Graph.getGraph().getRouteTable();
+public class GraphRouter {
 
-    public GraphRouter(GraphInter _graph) throws Exception {
-        super( _graph);
+    private HashMap<TownsNode, Edge> routeTable;
+
+    public GraphRouter() throws Exception {
+        this.routeTable = Graph.getGraph().getRouteTable();
     }
 
     /**
@@ -22,7 +23,7 @@ public class GraphRouter extends GraphDecorator{
      * @return
      * @throws Exception
      */
-    public int distanceBetween(ArrayList<TownsNode> cities) throws NoRouterException {
+    public int distanceBetween(ArrayList<TownsNode> cities) throws NoSuchRouterException {
 
         if (cities.size() < 2) {
             //如果给出的节点个数小于2直接返回0
@@ -39,7 +40,7 @@ public class GraphRouter extends GraphDecorator{
             if (this.routeTable.containsKey(cities.get(i))) {
                 Edge route = this.routeTable.get(cities.get(i));
 
-                //存在：采用深度优先算法遍历节点并且权值相加
+                //存在：遍历节点并且权值相加
                 while (route != null) {
                     if (route.destination.equals(cities.get(i + 1))) {
                         distance += route.weight;
@@ -50,14 +51,14 @@ public class GraphRouter extends GraphDecorator{
                 }
             } else {
                 //找不到对应路线
-                throw new NoRouterException("NO SUCH ROUTE");
+                throw new NoSuchRouterException();
             }
             i++;
         }
 
         //遍历深度不等于城市节点长度减一则路线不存在
         if (depth != cities.size() - 1) {
-            throw new NoRouterException("NO SUCH ROUTE");
+            throw new NoSuchRouterException();
         }
         return distance;
     }
@@ -69,10 +70,10 @@ public class GraphRouter extends GraphDecorator{
      * @param end
      * @param maxStops
      * @return
-     * @throws NoRouterException
+     * @throws NoSuchRouterException
      */
     public int numStops(TownsNode start, TownsNode end, int maxStops)
-            throws NoRouterException {
+            throws NoSuchRouterException {
 
         return findRoutes(start, end, 0, maxStops);
     }
@@ -86,10 +87,10 @@ public class GraphRouter extends GraphDecorator{
      * @param depth
      * @param maxStops
      * @return
-     * @throws NoRouterException
+     * @throws NoSuchRouterException
      */
     private int findRoutes(TownsNode start, TownsNode end, int depth, int maxStops)
-            throws NoRouterException {
+            throws NoSuchRouterException {
         int routes = 0;
         if (this.routeTable.containsKey(start) && this.routeTable.containsKey(end)) {
             /**
@@ -119,7 +120,7 @@ public class GraphRouter extends GraphDecorator{
                 edge = edge.next;
             }
         } else {
-            throw new NoRouterException("NO SUCH ROUTE");
+            throw new NoSuchRouterException();
         }
 
 		//退出递归前重置起始节点访问状态
@@ -134,9 +135,9 @@ public class GraphRouter extends GraphDecorator{
      * @param start
      * @param end
      * @return
-     * @throws NoRouterException
+     * @throws NoSuchRouterException
      */
-    public int shortestRoute(TownsNode start, TownsNode end) throws NoRouterException {
+    public int shortestRoute(TownsNode start, TownsNode end) throws NoSuchRouterException {
         return findShortestRoute(start, end, 0, 0);
 
     }
@@ -148,10 +149,10 @@ public class GraphRouter extends GraphDecorator{
      * @param weight
      * @param shortestRoute
      * @return
-     * @throws NoRouterException
+     * @throws NoSuchRouterException
      */
     private int findShortestRoute(TownsNode start, TownsNode end, int weight, int shortestRoute)
-            throws NoRouterException {
+            throws NoSuchRouterException {
 
         if (this.routeTable.containsKey(start) && this.routeTable.containsKey(end)) {
 			//依次遍历所有可能的节点，并且检查是否为目的地
@@ -176,7 +177,7 @@ public class GraphRouter extends GraphDecorator{
                 edge = edge.next;
             }
         } else {
-            throw new NoRouterException("NO SUCH ROUTE");
+            throw new NoSuchRouterException();
         }
 
         //退出递归前重置起始节点访问状态
@@ -192,10 +193,10 @@ public class GraphRouter extends GraphDecorator{
      * @param end
      * @param maxDistance
      * @return
-     * @throws NoRouterException
+     * @throws NoSuchRouterException
      */
     public int numRoutesWithin(TownsNode start, TownsNode end, int maxDistance)
-            throws NoRouterException {
+            throws NoSuchRouterException {
         return findNumRoutesWithin(start, end, 0, maxDistance);
     }
 
@@ -206,10 +207,10 @@ public class GraphRouter extends GraphDecorator{
      * @param weight
      * @param maxDistance
      * @return
-     * @throws NoRouterException
+     * @throws NoSuchRouterException
      */
     private int findNumRoutesWithin(TownsNode start, TownsNode end, int weight, int maxDistance)
-            throws NoRouterException {
+            throws NoSuchRouterException {
         int routes = 0;
         if (this.routeTable.containsKey(start) && this.routeTable.containsKey(end)) {
 
@@ -234,7 +235,7 @@ public class GraphRouter extends GraphDecorator{
                 edge = edge.next;
             }
         } else {
-            throw new NoRouterException("NO SUCH ROUTE");
+            throw new NoSuchRouterException();
         }
         return routes;
 

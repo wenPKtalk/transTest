@@ -66,6 +66,7 @@ public class GraphRouter {
     /**
      * 计算两个城市的站点数量
      * maxStop:最大站点数量
+     *
      * @param start
      * @param end
      * @param maxStops
@@ -82,6 +83,7 @@ public class GraphRouter {
     /**
      * 给定起点和终点查找总共存在多少站
      * 并且用最大站点和遍历递归深度进行约束
+     *
      * @param start
      * @param end
      * @param depth
@@ -98,7 +100,11 @@ public class GraphRouter {
              * 遍历过程中如果满足给定起始节点和终止节点并且
              * 在规定的站数范围则加入可能的路线。
              */
+            if (depth > maxStops) {
+                return 0;
+            }
             depth++;
+            start.visited = true;
             if (depth > maxStops) {
                 return 0;
             }
@@ -111,6 +117,7 @@ public class GraphRouter {
                     routes++;
                     edge = edge.next;
                     continue;
+
                 } else if (!edge.destination.visited) {
                     //不符合条件，并且终点节点未被访问
                     //进行递归遍历
@@ -122,16 +129,13 @@ public class GraphRouter {
         } else {
             throw new NoSuchRouterException();
         }
-
-		//退出递归前重置起始节点访问状态
+        //退出递归前重置起始节点访问状态
         start.visited = false;
         return routes;
     }
 
     /**
      * 给定开始节点和终止节点算出两个节点
-     * 在有向带权图中的最短路径
-     * 采用 Dijkstra算法
      * @param start
      * @param end
      * @return
@@ -142,20 +146,12 @@ public class GraphRouter {
 
     }
 
-    /**
-     * Dijkstra算法具体实现
-     * @param start
-     * @param end
-     * @param weight
-     * @param shortestRoute
-     * @return
-     * @throws NoSuchRouterException
-     */
+
     private int findShortestRoute(TownsNode start, TownsNode end, int weight, int shortestRoute)
             throws NoSuchRouterException {
 
         if (this.routeTable.containsKey(start) && this.routeTable.containsKey(end)) {
-			//依次遍历所有可能的节点，并且检查是否为目的地
+            //依次遍历所有可能的节点，并且检查是否为目的地
             start.visited = true;        //设置开始节点为已访问
             Edge edge = this.routeTable.get(start);
             while (edge != null) {
@@ -169,7 +165,7 @@ public class GraphRouter {
                         shortestRoute = weight;
                     start.visited = false;
                     return shortestRoute;
-                }else if (!edge.destination.visited) {
+                } else if (!edge.destination.visited) {
                     //继续访问
                     shortestRoute = findShortestRoute(edge.destination, end, weight, shortestRoute);
                     weight -= edge.weight;
@@ -189,6 +185,7 @@ public class GraphRouter {
     /**
      * 给定起始节点，终止节点，最大路径
      * 返回所有可能的路线数量
+     *
      * @param start
      * @param end
      * @param maxDistance
@@ -202,6 +199,7 @@ public class GraphRouter {
 
     /**
      * 实现算法
+     *
      * @param start
      * @param end
      * @param weight
@@ -218,7 +216,7 @@ public class GraphRouter {
             Edge edge = this.routeTable.get(start);
             while (edge != null) {
                 weight += edge.weight;
-				//路线权重小于限定值继续进行遍历直到超过限定值
+                //路线权重小于限定值继续进行遍历直到超过限定值
                 if (weight <= maxDistance) {
                     if (edge.destination.equals(end)) {
                         routes++;
